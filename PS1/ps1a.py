@@ -21,12 +21,14 @@ def load_cows(filename):
         # Read One Line At A Attempt
         txt = f.readline().replace("\n", "") 
 
+        # If an empty line is detected, end the loop.
         if txt == "":
             break
-        cowData = txt.split(",")
+        cowData = txt.split(",") # Turning csv to a list.
 
         # Putting data in the dictionary
-        data[cowData[0]] = int(cowData[1])
+        # Adding data of list to the dictionary. 0th index has name, 1st index has weight.
+        data[cowData[0]] = int(cowData[1]) 
 
     f.close()
     return data
@@ -37,6 +39,9 @@ def load_cows(filename):
 def greedy_cow_transport(cows,limit=10):
     # Copy dicitionary to not mutate the original dictionary.
     cowData = cows.copy()
+    # This returns a list of tuples in a sorted form. 
+    # 0th index of each tuple has name. 1st index has weight.
+    # I couldn't find a better way. Suggestions needed.
     cowData = sorted(cowData.items(), key=lambda x: x[1], reverse=True)
 
     # Initializing lists for total trips, current trips, and current trip capacity.
@@ -53,7 +58,9 @@ def greedy_cow_transport(cows,limit=10):
                 cowData.remove(cow)
             else:
                 continue
-
+        
+        # Adding each trip to total trips,
+        # and changing values of current ship and capacity to default after each turn.
         trips.append(currentTrip)
         currentTrip = []
         currentShipCapacity = 0
@@ -83,21 +90,28 @@ def brute_force_cow_transport(cows,limit=10):
     trips
     """
     continueSignal = False
-    trips = len(cows)
-    bestChoice = []
+    trips = len(cows) # Assuming worst case would be each cow being transported individually.
+    bestChoice = [] # This will store the best combination at the end to be returned.
+
     for partition in get_partitions(cows.copy()):
-        for sets in partition:
+        for sets in partition: # Going through each element of the sublists.
             sumOfElements = 0
+            # Adding weights for each sublists.
             for element in sets:
                 sumOfElements += cows[element]
-            if sumOfElements > limit:
+            
+            # If any sublist of a list breaks the weight limit, we move onto the next list.
+            if sumOfElements > limit: 
                 continueSignal = True
                 break
-
+        
+        # If continueSignal is true, we just move to the next list, without comparing,
+        # with best choice.
         if continueSignal:
             continueSignal = False
             continue
-
+        
+        # Comparing number of trips taken by current combo with the best combo.
         if len(partition) < trips:
             trips = len(partition)
             bestChoice = partition
