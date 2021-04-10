@@ -8,7 +8,6 @@
 #================================
 # Part B: Golden Eggs
 #================================
-
 # Problem 1
 def dp_make_weight(egg_weights, target_weight, memo = {}):
     """
@@ -22,19 +21,32 @@ def dp_make_weight(egg_weights, target_weight, memo = {}):
     
     Returns: int, smallest number of eggs needed to make target weight
     """
-    if len(egg_weights) == 0 or target_weight <= 0:
-        return 0
-    elif egg_weights[-1] > target_weight:
-        return dp_make_weight(egg_weights[:-1], target_weight)
-    else:
-        withCurrent = (1 + dp_make_weight(egg_weights, (target_weight - egg_weights[-1])))
-        withoutCurrent = dp_make_weight(egg_weights[:-1], target_weight)
+    # Checking if current combination of egg_weights and target weight are in memo.
+    # Returning the value, if found.
+    if (egg_weights, target_weight) in memo:
+        return memo[(egg_weights, target_weight)]
 
-        if withoutCurrent == 0:
+    if len(egg_weights) == 0 or target_weight <= 0: # Base Case
+        return 0
+    elif egg_weights[-1] > target_weight: # Removing element if beyond limit.
+        return dp_make_weight(egg_weights[:-1], target_weight, memo)
+    else:
+        # withCurrent will hold value of branch with egg of -1th index include. 
+        # withoutCurrent will hold value of branch without egg of -1th index include. 
+
+        withCurrent = (1 + dp_make_weight(egg_weights, (target_weight - egg_weights[-1]), memo))
+        withoutCurrent = dp_make_weight(egg_weights[:-1], target_weight, memo)
+
+
+        if withoutCurrent == 0: # Base Case for comparision
+            # Adding current combo of egg weights and target weight to dicitonary with the better choice.
+            memo[(egg_weights, target_weight)] = withCurrent 
             return withCurrent
-        elif withCurrent < withoutCurrent :
+        elif withCurrent < withoutCurrent : # Returning better of two results.
+            memo[(egg_weights, target_weight)] = withCurrent
             return withCurrent
         else:
+            memo[(egg_weights, target_weight)] = withoutCurrent
             return withoutCurrent
 
 
