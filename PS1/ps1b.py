@@ -30,7 +30,9 @@ def dp_make_weight(egg_weights, target_weight, memo = {}):
         withCurrent = (1 + dp_make_weight(egg_weights, (target_weight - egg_weights[-1])))
         withoutCurrent = dp_make_weight(egg_weights[:-1], target_weight)
 
-        if withCurrent < withoutCurrent and withCurrent != 0:
+        if withoutCurrent == 0:
+            return withCurrent
+        elif withCurrent < withoutCurrent :
             return withCurrent
         else:
             return withoutCurrent
