@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 # This program takes data from a csv file taken from covid19india.org containing daily covid data
 # from 1st Feb 21 to 11th Apr 21.
-# This takes and displays data for Bihar
+# This takes and displays data for different states
 
 class state(object):
     def __init__(self, code):
