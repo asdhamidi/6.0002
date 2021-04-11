@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 def loading_data():
     f = open("raw_data24.csv", "r")
-    title = f.readline().split(",")
+    next(f) # Skipping the first line containing titles.
 
     # Dicitionaries for new cases and recoveries to be saved with date as key.
     hosp = {}
@@ -55,9 +55,3 @@ plt.xlabel("Time ->")
 plt.title("New Covid Cases vs Recoveries in Bihar")
 plt.legend()
 plt.show()
-
-            
-
-                
-
-
