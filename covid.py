@@ -5,8 +5,16 @@ import matplotlib.pyplot as plt
 # from 1st Feb 21 to 11th Apr 21.
 # This takes and displays data for Bihar
 
-def loading_data():
-    f = open("raw_data24.csv", "r")
+class state(object):
+    def __init__(self, code):
+        self.code = code
+        self.hosp, self.recov = getData(self.code)
+    def show(self):
+        return show(self)
+
+
+def getData(code):
+    f = open("data.csv", "r")
     next(f) # Skipping the first line containing titles.
 
     # Dicitionaries for new cases and recoveries to be saved with date as key.
@@ -27,7 +35,7 @@ def loading_data():
         except:
             continue
 
-        if str(data[8]) == "BR":
+        if str(data[8]) == code:
             dateObj = datetime.strptime(str(data[2]).strip(), '%d/%m/%Y')
             if str(data[10]) == "Hospitalized":
                 if dateObj in hosp:
@@ -46,12 +54,20 @@ def loading_data():
     return hosp, recov
 
 
-hosp, recov = loading_data()
-                
-plt.plot(hosp.keys(), hosp.values(), "-.r", label = "New Cases")
-plt.plot(recov.keys(), recov.values(), "-.g", label = "Recovery")
-plt.ylabel("Daily number of cases")
-plt.xlabel("Time ->")
-plt.title("New Covid Cases vs Recoveries in Bihar")
-plt.legend()
-plt.show()
+def show(state):
+    plt.plot(state.hosp.keys(), state.hosp.values(), "-.r", label = "New Cases")
+    plt.plot(state.recov.keys(), state.recov.values(), "-.g", label = "Recovery")
+    plt.ylabel("Daily number of cases")
+    plt.xlabel("Time ->")
+    plt.title("New Covid Cases vs Recoveries in " + state.code)
+    plt.legend()
+    plt.show()
+
+stateCodes = ("BR", "DL", "MH", "UP")
+states = []
+for code in stateCodes:
+    states.append(state(code))
+
+for state in states:
+    state.show()
+
