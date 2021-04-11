@@ -48,8 +48,8 @@ def loading_data():
 
 hosp, recov = loading_data()
                 
-plt.plot(hosp.keys(), hosp.values(), "r-", label = "New Cases")
-plt.plot(recov.keys(), recov.values(), "g-", label = "Recovery")
+plt.plot(hosp.keys(), hosp.values(), "-.r", label = "New Cases")
+plt.plot(recov.keys(), recov.values(), "-.g", label = "Recovery")
 plt.ylabel("Daily number of cases")
 plt.xlabel("Time ->")
 plt.title("New Covid Cases vs Recoveries in Bihar")
