@@ -3,14 +3,20 @@ import matplotlib.pyplot as plt
 
 # This program takes data from a csv file taken from covid19india.org containing daily covid data
 # from 1st Feb 21 to 11th Apr 21.
-# This takes and displays data for different states
+# This takes and displays data for different states.
 
 class state(object):
     def __init__(self, code):
         self.code = code
         self.hosp, self.recov = getData(self.code)
     def show(self):
-        return show(self)
+        plt.plot(self.hosp.keys(), self.hosp.values(), "-.r", label = "New Cases")
+        plt.plot(self.recov.keys(), self.recov.values(), "-.g", label = "Recovery")
+        plt.ylabel("Daily number of cases")
+        plt.xlabel("Time ->")
+        plt.title("New Covid Cases vs Recoveries in " + self.code)
+        plt.legend()
+        plt.show()
 
 
 def getData(code):
@@ -54,20 +60,6 @@ def getData(code):
     return hosp, recov
 
 
-def show(state):
-    plt.plot(state.hosp.keys(), state.hosp.values(), "-.r", label = "New Cases")
-    plt.plot(state.recov.keys(), state.recov.values(), "-.g", label = "Recovery")
-    plt.ylabel("Daily number of cases")
-    plt.xlabel("Time ->")
-    plt.title("New Covid Cases vs Recoveries in " + state.code)
-    plt.legend()
-    plt.show()
-
 stateCodes = ("BR", "DL", "MH", "UP")
-states = []
 for code in stateCodes:
-    states.append(state(code))
-
-for state in states:
-    state.show()
-
+    state(code).show()
