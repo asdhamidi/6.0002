@@ -45,6 +45,37 @@ def load_map(map_filename):
 
     # TODO
     print("Loading map from file...")
+    data = open(map_filename)
+    map = Digraph()
+    
+    while True:
+        dataLine = data.readline()
+
+        if dataLine == "":
+            break
+
+        dataLine = dataLine.split(" ")
+        currentEdge = WeightedEdge(dataLine[0], dataLine[1], dataLine[2], dataLine[3])
+        if not (map.has_node(Node(dataLine[0]))):
+            map.add_node(Node(dataLine[0]))
+        
+        if not(map.has_node(Node(dataLine[1]))):
+            map.add_node(Node(dataLine[1]))
+
+        try:
+            map.add_edge(currentEdge)
+        except:
+            continue
+    
+    return map
+
+
+
+        
+
+
+
+
 
 # Problem 2c: Testing load_map
 # Include the lines used to test load_map below, but comment them out
