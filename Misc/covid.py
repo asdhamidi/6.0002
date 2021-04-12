@@ -60,6 +60,6 @@ def getData(code):
     return hosp, recov
 
 
-stateCodes = ("BR", "DL", "MH", "UP")
+stateCodes = ("WB", "AS", "KL", "TN", "PD")
 for code in stateCodes:
     state(code).show()
