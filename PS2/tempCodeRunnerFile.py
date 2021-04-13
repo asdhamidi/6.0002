@@ -1,1 +1,2 @@
-edges[node] = []
+
+            self.edges[node] = []

@@ -45,7 +45,7 @@ def load_map(map_filename):
 
     # TODO
     print("Loading map from file...")
-    data = open(map_filename)
+    data = open(map_filename, "r")
     map = Digraph()
     
     while True:
@@ -54,32 +54,25 @@ def load_map(map_filename):
         if dataLine == "":
             break
 
-        dataLine = dataLine.split(" ")
-        currentEdge = WeightedEdge(dataLine[0], dataLine[1], dataLine[2], dataLine[3])
+        dataLine = dataLine.replace("\n", "").split(" ")
+
+        currentEdge = WeightedEdge(Node(dataLine[0]), Node(dataLine[1]), int(dataLine[2]), int(dataLine[3]))
+
         if not (map.has_node(Node(dataLine[0]))):
             map.add_node(Node(dataLine[0]))
         
         if not(map.has_node(Node(dataLine[1]))):
             map.add_node(Node(dataLine[1]))
 
-        try:
-            map.add_edge(currentEdge)
-        except:
-            continue
-    
+        map.add_edge(currentEdge)
     return map
 
-
-
-        
-
-
-
-
+map = load_map("mit_map.txt")
+print(map)
 
 # Problem 2c: Testing load_map
 # Include the lines used to test load_map below, but comment them out
-
+# print(load_map("mit_map.txt"))
 
 #
 # Problem 3: Finding the Shorest Path using Optimized Search Method
@@ -247,5 +240,5 @@ class Ps2Test(unittest.TestCase):
         self._test_impossible_path('10', '32', total_dist=100)
 
 
-if __name__ == "__main__":
-    unittest.main()
+# if __name__ == "__main__":
+#     unittest.main()
