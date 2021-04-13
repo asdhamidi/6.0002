@@ -1,27 +1,11 @@
-# 6.0002 Problem Set 5
-# Graph optimization
-# Name:
-# Collaborators:
-# Time:
-
 #
 # Finding shortest paths through MIT buildings
 #
 import unittest
 from graph import Digraph, Node, WeightedEdge
 
-#
-# Problem 2: Building up the Campus Map
-#
-# Problem 2a: Designing your graph
-#
-# What do the graph's nodes represent in this problem? What
-# do the graph's edges represent? Where are the distances
-# represented?
-#
-# Answer:
-#
-
+# Graph nodes represent campus buildings and weightedges will represent the road from one building to another
+# including whole distance as well as distance which has to be covered outdoors.
 
 # Problem 2b: Implementing load_map
 def load_map(map_filename):
@@ -43,46 +27,33 @@ def load_map(map_filename):
         a Digraph representing the map
     """
 
-    # TODO
+    data_file = open(map_filename, 'r')
+    map_graph = Digraph()
+    for line in data_file:
+        source_node, dest_node, total_distance, outdoor_distance = line.split(' ')
+        source = Node(source_node)
+        dest = Node(dest_node)
+        edge = WeightedEdge(source, dest, int(total_distance), int(outdoor_distance))
+        if not map_graph.has_node(source):   # checking if the node is already added to graph.
+            map_graph.add_node(source)
+        if not map_graph.has_node(dest):   # checking if the node is already added to graph.
+            map_graph.add_node(dest)
+        map_graph.add_edge(edge)
     print("Loading map from file...")
-    data = open(map_filename, "r")
-    map = Digraph()
-    
-    while True:
-        dataLine = data.readline()
-
-        if dataLine == "":
-            break
-
-        dataLine = dataLine.replace("\n", "").split(" ")
-
-        currentEdge = WeightedEdge(Node(dataLine[0]), Node(dataLine[1]), int(dataLine[2]), int(dataLine[3]))
-
-        if not (map.has_node(Node(dataLine[0]))):
-            map.add_node(Node(dataLine[0]))
-        
-        if not(map.has_node(Node(dataLine[1]))):
-            map.add_node(Node(dataLine[1]))
-
-        map.add_edge(currentEdge)
-    return map
-
-map = load_map("mit_map.txt")
-print(map)
+    return map_graph
 
 # Problem 2c: Testing load_map
 # Include the lines used to test load_map below, but comment them out
-# print(load_map("mit_map.txt"))
 
 #
-# Problem 3: Finding the Shorest Path using Optimized Search Method
+# Problem 3: Finding the Shortest Path using Optimized Search Method
 #
 # Problem 3a: Objective function
 #
 # What is the objective function for this problem? What are the constraints?
 #
 # Answer:
-#
+# Objective is to find shortest total path from building to building, while not exceeding limit for outdoors distance.
 
 # Problem 3b: Implement get_best_path
 def get_best_path(digraph, start, end, path, max_dist_outdoors, best_dist,
@@ -119,11 +90,29 @@ def get_best_path(digraph, start, end, path, max_dist_outdoors, best_dist,
         If there exists no path that satisfies max_total_dist and
         max_dist_outdoors constraints, then return None.
     """
-    # TODO
-    pass
+    path[0] = path[0] + [start]   # updating list of nodes in the path.
+    if path[2] > max_dist_outdoors:   # checking if max_dist_outdoors was exceeded. No point going deeper if so.
+        return None
+    if digraph.has_node(digraph.get_node(start)) is False or digraph.has_node(digraph.get_node(end)) is False:
+        raise KeyError
+    elif start == end:
+        return path
+    for edge in digraph.edges[digraph.get_node(start)]:
+        node = edge.get_destination()
+        node = node.get_name()
+        distance = edge.get_total_distance() + path[1]   # updating total distance.
+        outdoors = edge.get_outdoor_distance() + path[2]   # updating outdoor distance.
+        if node not in path[0]:   # checking in order to avoid infinite loops.
+            updated_path = [path[0], distance, outdoors]
+            new_path = get_best_path(digraph, node, end, updated_path, max_dist_outdoors, best_dist, best_path)
+            if new_path:
+                if not best_dist or new_path[1] < best_dist:   # if distance on current path shorter than best one,
+                    best_path, best_dist = new_path[0], new_path[1]   # update and sign new best distance and path.
+        else:
+            print(f'{node} node is already in your path!')
+    return best_path, best_dist
 
-
-# Problem 3c: Implement directed_dfs
+#Problem 3c: Implement directed_dfs
 def directed_dfs(digraph, start, end, max_total_dist, max_dist_outdoors):
     """
     Finds the shortest path from start to end using a directed depth-first
@@ -152,9 +141,17 @@ def directed_dfs(digraph, start, end, max_total_dist, max_dist_outdoors):
         If there exists no path that satisfies max_total_dist and
         max_dist_outdoors constraints, then raises a ValueError.
     """
-    # TODO
-    pass
-
+    path = [[], 0, 0]   # initial empty path.
+    result = get_best_path(digraph, start, end, path, max_dist_outdoors, best_dist=None, best_path=None)
+    if result[1] is None:
+        print('There is no result that meets constraints!')
+        raise ValueError
+    else:
+        if result[1] > max_total_dist:
+            print('Result exceeded max_total_dist')
+            raise ValueError
+        else:
+            return result[0]
 
 # ================================================================
 # Begin tests -- you do not need to modify anything below this line
@@ -240,5 +237,5 @@ class Ps2Test(unittest.TestCase):
         self._test_impossible_path('10', '32', total_dist=100)
 
 
-# if __name__ == "__main__":
-#     unittest.main()
+if __name__ == "__main__":
+    unittest.main()

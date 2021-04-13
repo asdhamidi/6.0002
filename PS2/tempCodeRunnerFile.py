@@ -1,2 +1,0 @@
-
-            self.edges[node] = []
