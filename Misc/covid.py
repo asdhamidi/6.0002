@@ -41,7 +41,7 @@ def getData(code):
         except:
             continue
 
-        if str(data[8]) == code:
+        if str(data[8]]) == code:
             dateObj = datetime.strptime(str(data[2]).strip(), '%d/%m/%Y')
             if str(data[10]) == "Hospitalized":
                 if dateObj in hosp:
