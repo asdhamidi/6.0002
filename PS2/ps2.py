@@ -135,9 +135,9 @@ def get_best_path(digraph, start, end, path, max_dist_outdoors, best_dist,
 
             if nextNode not in newPath[0]:
                 if nextNode is end:
+                    newPath[0].append(end)
                     if best_dist is None or newPath[1] < best_dist:
                         best_dist = newPath[1]
-                        newPath[0].append(end)
                         best_path = newPath[0]
                 else:
                     best_path, best_dist = get_best_path(digraph, nextNode, end, newPath, max_dist_outdoors, best_dist, best_path)
