@@ -1,30 +1,32 @@
+def throwNeedles(numNeedles):
+    inCircle = 0
+    for Needles in range(1, numNeedles + 1, 1):
+        x = random.random()
+        y = random.random()
+        if (x*x + y*y)**0.5 <= 1.0:
+            inCircle += 1
+    return 2*(inCircle/float(numNeedles))
+    
+def getEst(numNeedles, numTrials):
+    estimates = []
+    for t in range(numTrials):
+        piGuess = throwNeedles(numNeedles)
+        estimates.append(piGuess)
+    sDev = numpy.std(estimates)
+    curEst = sum(estimates)/len(estimates)
+    print('Est. = ' + str(curEst) +\
+          ', Std. dev. = ' + str(round(sDev, 6))\
+          + ', Needles = ' + str(numNeedles))
+    return (curEst, sDev)
 
-random.seed(1)
-dist, numSamples = [], 1000000
+def estPi(precision, numTrials):
+    numNeedles = 1000
+    sDev = precision
+    while sDev >= precision/2:
+        curEst, sDev = getEst(numNeedles,
+                              numTrials)
+        numNeedles *= 2
+    return curEst
 
-for i in range(numSamples):
-   dist.append(random.gauss(0, 100))
-   
-weights = [1/numSamples]*len(dist)
-v = pylab.hist(dist, bins = 100,
-              weights = [1/numSamples]*len(dist))
-              
-print('Fraction within ~200 of mean =',
-     sum(v[0][30:70]))
-
-def gaussian(x, mu, sigma):
- factor1 = (1.0/(sigma*((2*pylab.pi)**0.5)))
- factor2 = pylab.e**-(((x-mu)**2)/(2*sigma**2))
- return factor1*factor2
- 
-xVals, yVals = [], []
-mu, sigma = 0, 1
-x = -4
-while x <= 4:
-   xVals.append(x)
-   yVals.append(gaussian(x, mu, sigma))
-   x += 0.05
-pylab.plot(xVals, yVals)
-pylab.title('Normal Distribution, mu = ' + str(mu)\
-           + ', sigma = ' + str(sigma))
-
+random.seed(0)
+estPi(0.005, 100)
