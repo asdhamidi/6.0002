@@ -36,8 +36,6 @@ for r in range(len(popMean)):
 
 plt.plot(size, diff, "r-.")
 plt.plot(size, zero, "k-")
-# plt.plot(size, meanOfMeans, "r--", label = "Mean of Means")
 plt.xlabel("Sample Size")
 plt.ylabel("Difference in Pop. Mean and Mean of Means.")
-plt.legend()
 plt.show()
