@@ -84,8 +84,8 @@ class RectangularRoom(object):
         self.width = width
         self.height = height
         self.dirt_amount = {}
-        for w in width:
-            for h in height:
+        for w in range(width):
+            for h in range(height):
                 self.dirt_amount[(w,h)] = dirt_amount
         
     
@@ -102,7 +102,7 @@ class RectangularRoom(object):
         Note: The amount of dirt on each tile should be NON-NEGATIVE.
               If the capacity exceeds the amount of dirt on the tile, mark it as 0.
         """
-        self.dirt_amount[(pos.get_x(), pos.get_y())] -= capacity
+        self.dirt_amount[(math.floor(pos.get_x()), math.floor(pos.get_y()))] -= capacity
 
     def is_tile_cleaned(self, m, n):
         """
@@ -128,8 +128,8 @@ class RectangularRoom(object):
         Returns: an integer; the total number of clean tiles in the room
         """
         cleanedTiles = 0
-        for w in self.width:
-            for h in self.height:
+        for w in range(self.width):
+            for h in range(self.height):
                 if self.dirt_amount[w, h] == 0:
                     cleanedTiles += 1
         
@@ -388,11 +388,17 @@ class StandardRobot(Robot):
         rotate once to a random new direction, and stay stationary) and clean the dirt on the tile
         by its given capacity. 
         """
-        raise NotImplementedError
+        currentPosition = self.get_robot_position()
+        newPosition = currentPosition.get_new_position(self.get_robot_direction(), self.speed)
+        if self.room.is_position_in_room(newPosition):
+            self.room.clean_tile_at_position(currentPosition, self.capacity)
+            self.set_robot_position(currentPosition)
+        else:
+            self.set_robot_direction(random.uniform(0, 360))
 
 # Uncomment this line to see your implementation of StandardRobot in action!
-#test_robot_movement(StandardRobot, EmptyRoom)
-#test_robot_movement(StandardRobot, FurnishedRoom)
+# test_robot_movement(StandardRobot, EmptyRoom)
+test_robot_movement(StandardRobot, FurnishedRoom)
 
 # === Problem 4
 class FaultyRobot(Robot):
@@ -432,7 +438,7 @@ class FaultyRobot(Robot):
         StandardRobot at this time-step (checking if it can move to a new position,
         move there if it can, pick a new direction and stay stationary if it can't)
         """
-        raise NotImplementedError
+        
         
     
 #test_robot_movement(FaultyRobot, EmptyRoom)
