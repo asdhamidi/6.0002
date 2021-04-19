@@ -153,8 +153,8 @@ def splitData(xVals, yVals):
             testX.append(xVals[i])
             testY.append(yVals[i])
     return trainX, trainY, testX, testY
-    
-#UNCOVER FOR SECOND DEMO    
+
+  
 numSubsets = 10
 dimensions = (1, 2, 3, 4)
 rSquares = {}
@@ -165,7 +165,6 @@ for f in range(numSubsets):
    trainX, trainY, testX, testY = splitData(xVals, yVals)
    for d in dimensions:
        model = pylab.polyfit(trainX, trainY, d)
-       print(model)
        estYVals = pylab.polyval(model, trainX)
        estYVals = pylab.polyval(model, testX)
        rSquares[d].append(rSquared(testY, estYVals))
