@@ -1,0 +1,1 @@
+populations = simulation_without_antibiotic(100, 1000, 0.1, 0.025, 50)

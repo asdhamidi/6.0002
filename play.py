@@ -39,5 +39,7 @@
 # plt.xlabel("Sample Size")
 # plt.ylabel("Difference in Pop. Mean and Mean of Means.")
 # plt.show()
+ls = [r for r in range(10)]
 
+print(ls)
 
