@@ -1,8 +1,6 @@
 # 6.0002
 My solutions to the assignments of 6.0002 of MIT OCW.
 
-<i>(Work in Progress)</i>
-
 # Course Details
 Course Name : Introduction to Computational Thinking and Data Science
 

@@ -5,7 +5,7 @@
 
 import math
 import numpy as np
-import matplotlib.pylab as pl
+import matplotlib.numpy as pl
 import random
 
 
@@ -570,13 +570,16 @@ def simulation_with_antibiotic(num_bacteria,
         bacteria = [ResistantBacteria(birth_prob, death_prob, resistant, mut_prob) for r in range(num_bacteria)]
         Patient = TreatedPatient(bacteria, max_pop)
 
+        # Running 150 steps without anitbiotic
         for r in range(150):
             total_pop[trial].append(Patient.get_total_pop())
             resistant_pop[trial].append(Patient.get_resist_pop())
             Patient.update()
         
+        # Activation anitbiotic
         Patient.set_on_antibiotic()
 
+        # Running 250 steps with antibiotic
         for r in range(250):
             total_pop[trial].append(Patient.get_total_pop())
             resistant_pop[trial].append(Patient.get_resist_pop())

@@ -4,7 +4,7 @@
 import math
 import random
 import ps3_visualize
-import pylab
+import numpy
 
 
 def test_robot_movement(robot_type, room_type):

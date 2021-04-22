@@ -8,7 +8,7 @@ import math
 import random
 
 import ps3_visualize
-import matplotlib.pylab as pylab
+import matplotlib.numpy as numpy
 
 # For python 2.7:
 from ps3_verify_movement27 import test_robot_movement
@@ -528,13 +528,13 @@ def show_plot_compare_strategies(title, x_label, y_label):
         print ("Plotting", num_robots, "robots...")
         times1.append(run_simulation(num_robots, 1.0, 1, 20, 20, 3, 0.8, 20, StandardRobot))
         times2.append(run_simulation(num_robots, 1.0, 1, 20, 20, 3, 0.8, 20, FaultyRobot))
-    pylab.plot(num_robot_range, times1)
-    pylab.plot(num_robot_range, times2)
-    pylab.title(title)
-    pylab.legend(('StandardRobot', 'FaultyRobot'))
-    pylab.xlabel(x_label)
-    pylab.ylabel(y_label)
-    pylab.show()
+    numpy.plot(num_robot_range, times1)
+    numpy.plot(num_robot_range, times2)
+    numpy.title(title)
+    numpy.legend(('StandardRobot', 'FaultyRobot'))
+    numpy.xlabel(x_label)
+    numpy.ylabel(y_label)
+    numpy.show()
     
 def show_plot_room_shape(title, x_label, y_label):
     """
@@ -549,13 +549,13 @@ def show_plot_room_shape(title, x_label, y_label):
         aspect_ratios.append(float(width) / height)
         times1.append(run_simulation(2, 1.0, 1, width, height, 3, 0.8, 200, StandardRobot))
         times2.append(run_simulation(2, 1.0, 1, width, height, 3, 0.8, 200, FaultyRobot))
-    pylab.plot(aspect_ratios, times1)
-    pylab.plot(aspect_ratios, times2)
-    pylab.title(title)
-    pylab.legend(('StandardRobot', 'FaultyRobot'))
-    pylab.xlabel(x_label)
-    pylab.ylabel(y_label)
-    pylab.show()
+    numpy.plot(aspect_ratios, times1)
+    numpy.plot(aspect_ratios, times2)
+    numpy.title(title)
+    numpy.legend(('StandardRobot', 'FaultyRobot'))
+    numpy.xlabel(x_label)
+    numpy.ylabel(y_label)
+    numpy.show()
 
 
 show_plot_compare_strategies('Time to clean 80% of a 20x20 room, for various numbers of robots','Number of robots','Time / steps')
