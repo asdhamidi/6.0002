@@ -26,7 +26,7 @@ def dp_make_weight(egg_weights, target_weight, memo = {}):
     if (egg_weights, target_weight) in memo:
         return memo[(egg_weights, target_weight)]
 
-    if len(egg_weights) == 0 or target_weight <= 0: # Base Case
+    if len(egg_weights) == 0 or target_weight <= 0: # Base Case.
         return 0
     elif egg_weights[-1] > target_weight: # Removing element if beyond limit.
         return dp_make_weight(egg_weights[:-1], target_weight, memo)
@@ -38,7 +38,7 @@ def dp_make_weight(egg_weights, target_weight, memo = {}):
         withoutCurrent = dp_make_weight(egg_weights[:-1], target_weight, memo)
 
 
-        if withoutCurrent == 0: # Base Case for comparision
+        if withoutCurrent == 0: # Base Case for comparision.
             # Adding current combo of egg weights and target weight to dicitonary with the better choice.
             memo[(egg_weights, target_weight)] = withCurrent 
             return withCurrent
