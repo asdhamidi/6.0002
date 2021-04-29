@@ -15,8 +15,8 @@ punc = "#$%&'()*+, -./:;<=>?@[]^_`{|}~\n"
 
 # Problem 1
 def load_cows(filename):
-    f = open(filename, "r") # Opening file
-    data = {} # Initializing empty dictionary
+    f = open(filename, "r") # Opening file.
+    data = {} # Initializing empty dictionary.
     while True:
         # Read One Line At A Attempt
         txt = f.readline().replace("\n", "") 
@@ -26,7 +26,7 @@ def load_cows(filename):
             break
         cowData = txt.split(",") # Turning csv to a list.
 
-        # Putting data in the dictionary
+        # Putting data in the dictionary.
         # Adding data of list to the dictionary. 0th index has name, 1st index has weight.
         data[cowData[0]] = int(cowData[1]) 
 
@@ -90,9 +90,10 @@ def brute_force_cow_transport(cows,limit=10):
     trips
     """
     continueSignal = False
-    trips = len(cows) # Assuming worst case would be each cow being transported individually.
-    bestChoice = [] # This will store the best combination at the end to be returned.
-
+    # Assuming worst case would be each cow being transported individually.
+    trips = len(cows) 
+    # This will store the best combination at the end to be returned.
+    bestChoice = [] 
     for partition in get_partitions(cows.copy()):
         for sets in partition: # Going through each element of the sublists.
             sumOfElements = 0
