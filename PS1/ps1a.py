@@ -90,6 +90,7 @@ def brute_force_cow_transport(cows,limit=10):
     trips
     """
     continueSignal = False
+    
     # Assuming worst case would be each cow being transported individually.
     trips = len(cows) 
     # This will store the best combination at the end to be returned.
