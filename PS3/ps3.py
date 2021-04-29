@@ -474,7 +474,7 @@ def run_simulation(num_robots, speed, capacity, width, height, dirt_amount, min_
     robot_type: class of robot to be instantiated (e.g. StandardRobot or
                 FaultyRobot)
     """
-    time = []
+    time = [] # Initial Empty list
 
     for r in range(num_trials):
         room = EmptyRoom(width, height, dirt_amount)
@@ -484,6 +484,7 @@ def run_simulation(num_robots, speed, capacity, width, height, dirt_amount, min_
             robot = robot_type(room, speed, capacity)
             robots.append(robot)
         
+        # Running loop till room is cleaned
         timeTaken = 0
         while room.get_num_cleaned_tiles() <= min_coverage * room.get_num_tiles():
             for robot in robots:
